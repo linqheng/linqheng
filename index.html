@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>林轻｜分享</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    
+    :root {
+      --primary-color: #1890ff;
+      --bg-color: #f8f9fa;
+      --text-color: #333;
+      --item-bg: white;
+      --border-color: #e0e0e0;
+      --hover-bg: #f0f7ff;
+      --shadow: 0 1px 3px rgba(0,0,0,0.05);
+      --border-radius: 6px;
+      --item-padding: 12px 16px;
+      --accent-color: #1890ff;
+    }
+    
+    .theme-red {
+      --accent-color: #ff4757;
+      --primary-color: #ff4757;
+      --bg-color: #fff5f5;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #ffcccc;
+      --hover-bg: #ffeaea;
+      --shadow: 0 1px 3px rgba(255, 71, 87, 0.1);
+    }
+    
+    .theme-orange {
+      --accent-color: #ffa502;
+      --primary-color: #ffa502;
+      --bg-color: #fff9e6;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #ffd699;
+      --hover-bg: #fff0cc;
+      --shadow: 0 1px 3px rgba(255, 165, 2, 0.1);
+    }
+    
+    .theme-yellow {
+      --accent-color: #ffd32a;
+      --primary-color: #ffd32a;
+      --bg-color: #fffde7;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #ffeaa7;
+      --hover-bg: #fff9c4;
+      --shadow: 0 1px 3px rgba(255, 211, 42, 0.1);
+    }
+    
+    .theme-green {
+      --accent-color: #2ed573;
+      --primary-color: #2ed573;
+      --bg-color: #f1fff7;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #a3e4c1;
+      --hover-bg: #d1f2e3;
+      --shadow: 0 1px 3px rgba(46, 213, 115, 0.1);
+    }
+    
+    .theme-blue {
+      --accent-color: #1e90ff;
+      --primary-color: #1e90ff;
+      --bg-color: #f0f8ff;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #87cefa;
+      --hover-bg: #d4ebff;
+      --shadow: 0 1px 3px rgba(30, 144, 255, 0.1);
+    }
+    
+    .theme-indigo {
+      --accent-color: #5352ed;
+      --primary-color: #5352ed;
+      --bg-color: #f8f9ff;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #a5b1c2;
+      --hover-bg: #e6e9ff;
+      --shadow: 0 1px 3px rgba(83, 82, 237, 0.1);
+    }
+    
+    .theme-violet {
+      --accent-color: #8e44ad;
+      --primary-color: #8e44ad;
+      --bg-color: #f9f0ff;
+      --text-color: #2d3436;
+      --item-bg: #ffffff;
+      --border-color: #d7bde2;
+      --hover-bg: #e8daef;
+      --shadow: 0 1px 3px rgba(142, 68, 173, 0.1);
+    }
+    
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      min-height: 100vh;
+      transition: all 0.5s ease;
+      cursor: pointer;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* 头部样式 */
+    .header {
+      margin-bottom: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .header-note {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.4;
+    }
+    
+    /* 路径栏样式 */
+    .path-bar {
+      font-size: 14px;
+      color: #666;
+      padding: 5px 0;
+      margin-bottom: 20px;
+    }
+    
+    .path-bar span {
+      cursor: pointer;
+      color: var(--primary-color);
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    .path-bar span:hover {
+      color: var(--accent-color);
+      background: var(--hover-bg);
+      transform: translateY(-2px) scale(1.05);
+    }
+    
+    .path-bar .separator {
+      margin: 0 6px;
+      color: #aaa;
+    }
+    
+    /* 文件列表样式 - 移动端列表布局 */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .item {
+      display: flex;
+      align-items: center;
+      padding: var(--item-padding);
+      background: var(--item-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border: 1px solid transparent;
+    }
+    
+    .item:hover {
+      background-color: var(--hover-bg);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: var(--accent-color);
+    }
+    
+    .icon {
+      font-size: 24px;
+      margin-right: 12px;
+      width: 24px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .item:hover .icon {
+      transform: scale(1.2) rotate(5deg);
+      color: var(--accent-color);
+    }
+    
+    .name {
+      font-size: 16px;
+      flex: 1;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .item:hover .name {
+      transform: translateX(5px);
+      color: var(--accent-color);
+    }
+    
+    .size {
+      font-size: 14px;
+      color: #888;
+      margin-left: 20px;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .item:hover .size {
+      transform: scale(1.1);
+      background: var(--accent-color);
+      color: white;
+    }
+    
+    /* 图标颜色 */
+    .folder .icon { color: var(--accent-color); }
+    .file .icon { color: #6c757d; }
+    .pdf .icon { color: #e03131; }
+    .image .icon { color: #40c057; }
+    .doc .icon { color: #3b82f6; }
+    .link .icon { color: #8b5cf6; }
+    .parent .icon { color: #f72585; }
+    
+    /* 响应式设计 - 电脑端网格布局 */
+    @media (min-width: 1024px) {
+      .file-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+      
+      .item {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        height: 140px;
+        justify-content: center;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+      }
+      
+      .item .icon {
+        font-size: 32px;
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: auto;
+      }
+      
+      .item .name {
+        font-size: 14px;
+        margin-bottom: 5px;
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      
+      .item .size {
+        font-size: 12px;
+        margin-left: 0;
+        opacity: 0.8;
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      
+      .item:hover .size {
+        background: var(--accent-color);
+        color: white;
+      }
+    }
+    
+    /* 平板端响应式 */
+    @media (max-width: 1023px) and (min-width: 769px) {
+      .file-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+      }
+      
+      .item {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+        height: 120px;
+        justify-content: center;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+      }
+      
+      .item .icon {
+        font-size: 28px;
+        margin-right: 0;
+        margin-bottom: 8px;
+      }
+      
+      .item .name {
+        font-size: 13px;
+        margin-bottom: 4px;
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+      
+      .item .size {
+        font-size: 11px;
+        margin-left: 0;
+      }
+    }
+    
+    /* 移动端响应式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .header {
+        margin-bottom: 15px;
+        padding: 8px 0;
+      }
+      
+      .path-bar {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+      
+      .item {
+        padding: 10px 12px;
+        border-radius: 4px;
+      }
+      
+      .icon {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+      
+      .name {
+        font-size: 14px;
+      }
+      
+      .size {
+        font-size: 12px;
+        margin-left: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 5px;
+      }
+      
+      .header {
+        margin-bottom: 10px;
+      }
+      
+      .path-bar {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+      
+      .item {
+        padding: 8px 10px;
+      }
+      
+      .icon {
+        font-size: 18px;
+        margin-right: 8px;
+      }
+      
+      .name {
+        font-size: 13px;
+      }
+      
+      .size {
+        font-size: 11px;
+        margin-left: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="theme-red">
+  <div class="container">
+    <div class="header">
+      <div class="header-note">📁 内容均来源于网络，本人不提供任何安全保证及责任承担，因使用所产生的一切风险和问题用户自负本人所发布的一切破解补丁、软件以及解密分析文章和视频仅限用于学习和研究目的，不得将上述内容用于商业或非法用途，否则一切后果请用户自行承担
+本人所提供的信息均来自网络，对于其中的版权争议与本人无关</div>
+    </div>
+    
+    <div class="path-bar" id="pathBar">
+      <!-- 动态路径 -->
+    </div>
+
+    <div class="file-list" id="fileList">
+      <!-- 列表由 JS 渲染 -->
+    </div>
+  </div>
+
+  <!-- 音频元素 -  -->
+  <audio id="backgroundMusic" loop>
+    <source src="sky.linqheng.asia/color/music.m4a" type="audio/wav">
+    <source src="qingren.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/wav">
+  </audio>
+
+  <script>
+    // 模拟文件系统，支持文件夹和带链接的文件
+    const fileSystem = {
+      '/': [
+        { name: '纸鸢｜花楹｜破晓', type: 'folder' },
+        { name: '烛灵｜小懒猫', type: 'folder' },
+        { name: '千纸鹤', type: 'folder'},
+        { name: '梓零', type: 'folder' },
+        { name: '光遇官网总群', type: 'link', url: 'https://qm.qq.com/q/pgcHnFywne', size: 'QQ'},
+        { name: '林轻官网', type: 'link', url: 'http://linqheng.asia', size: '网页' },
+        { name: '什么都没有', type: 'link', url: 'https://sky.linqheng.asia', size: '林轻' },
+      ],
+      '/纸鸢｜花楹｜破晓/': [
+        { name: '..', type: 'parent' },
+        { name: '纸鸢花楹破晓合集', type: 'htm', url: 'https://docs.qq.com/doc/DWUVIc1hGS1htcXh1', size: '10086 TB' },
+        { name: '备用', type: 'htm', url: 'https://docs.qq.com/doc/DWUVIc1hGS1htcXh1', size: '0.0000000001 KB' },
+      ],
+      '/烛灵｜小懒猫/': [
+        { name: '..', type: 'parent' },
+        { name: '烛灵脚本（永久卡密zhuling7986）', type: 'txt',size: '10086 SB' },
+        { name: '烛灵｜小懒猫链接', type: 'htm', url: 'https://www.kdocs.cn/l/cnDApkCPK2uu', size: 'NMLGB' },
+        { name: '光遇85个景点打卡教程.jpg', type: 'image', url: 'https://yun.139.com/shareweb/#/w/i/2qiem7Sy5Xw3l', size: 'DSB' },
+      ],
+      '/千纸鹤/': [
+        { name: '..', type:'parent'},
+        { name: '千纸鹤', type: 'htm', url: 'https://www.123684.com/s/5WFAvd-j1xKv', size: '10086 JB'}
+      ],
+      '/梓零/': [
+        { name: '..', type: 'parent' },
+        { name: '梓零（取件码2345）', type: 'txt', size: '10086 SB' },
+        { name: '梓零', type: 'htm', url: 'https://pan.baidu.com/s/1Qth9B6EYHreT9GU1U-aWgQ?pwd=2345', size: 'NMLGB' }
+      ]
+    };
+
+    let currentPath = '/';
+    let currentThemeIndex = 0;
+    let themeInterval;
+    let isMusicPlaying = false;
+    
+    // 彩虹主题顺序
+    const themes = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+    // 自动切换主题函数（每0.5秒切换一次）
+    function startAutoThemeSwitch() {
+      if (themeInterval) {
+        clearInterval(themeInterval);
+      }
+      
+      themeInterval = setInterval(() => {
+        changeTheme();
+      }, 500);
+    }
+
+    function changeTheme() {
+      const body = document.body;
+      
+      // 移除所有主题类
+      body.classList.remove('theme-red', 'theme-orange', 'theme-yellow', 'theme-green', 'theme-blue', 'theme-indigo', 'theme-violet');
+      
+      // 切换到下一个主题
+      currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+      const nextTheme = themes[currentThemeIndex];
+      
+      // 添加新主题类
+      body.classList.add('theme-' + nextTheme);
+    }
+
+    // 音乐控制功能
+    function initMusic() {
+      const audio = document.getElementById('backgroundMusic');
+      const body = document.body;
+      
+      // 设置音频属性
+      audio.volume = 0.3; // 设置音量
+      audio.preload = 'auto';
+      
+      // 添加用户交互检测
+      let hasUserInteracted = false;
+      
+      // 检测用户交互
+      const enableAudio = () => {
+        if (!hasUserInteracted) {
+          hasUserInteracted = true;
+          body.removeEventListener('click', enableAudio);
+          body.removeEventListener('touchstart', enableAudio);
+          body.removeEventListener('keydown', enableAudio);
+        }
+      };
+      
+      // 添加多种交互监听
+      body.addEventListener('click', enableAudio);
+      body.addEventListener('touchstart', enableAudio);
+      body.addEventListener('keydown', enableAudio);
+      
+      // 点击页面播放音乐
+      body.addEventListener('click', function(event) {
+        if (!isMusicPlaying && hasUserInteracted) {
+          // 尝试播放音乐
+          const playPromise = audio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              console.log('音乐开始播放');
+              isMusicPlaying = true;
+              body.style.cursor = 'default';
+            }).catch(error => {
+              console.log('播放失败，需要用户交互:', error);
+              // 显示提示信息
+              showMusicPrompt();
+            });
+          }
+        }
+      });
+      
+      // 页面加载后尝试自动播放（需要用户交互后）
+      window.addEventListener('load', function() {
+        if (hasUserInteracted) {
+          audio.play().then(() => {
+            isMusicPlaying = true;
+            body.style.cursor = 'default';
+          }).catch(error => {
+            console.log('自动播放被阻止');
+          });
+        }
+      });
+      
+      // 音乐加载错误处理
+      audio.addEventListener('error', function(e) {
+        console.error('音乐加载错误:', e);
+        showMusicPrompt();
+      });
+      
+      // 音乐可以播放时
+      audio.addEventListener('canplay', function() {
+        console.log('音乐可以播放');
+      });
+      
+      // 音乐加载进度
+      audio.addEventListener('loadstart', function() {
+        console.log('开始加载音乐');
+      });
+    }
+    
+    // 显示音乐播放提示
+    function showMusicPrompt() {
+      // 在页面顶部显示提示
+      const prompt = document.createElement('div');
+      prompt.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 14px;
+        z-index: 10000;
+        animation: fadeInOut 3s ease-in-out;
+      `;
+      prompt.textContent = '欢迎访问 林轻｜分享';
+      document.body.appendChild(prompt);
+      
+      // 添加淡入淡出动画
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+          20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // 3秒后移除提示
+      setTimeout(() => {
+        if (prompt.parentNode) {
+          prompt.parentNode.removeChild(prompt);
+        }
+      }, 3000);
+    }
+
+    function getIcon(type) {
+      if (type === 'folder') return '📁';
+      if (type === 'parent') return '🔙';
+      if (type === 'pdf') return '📄';
+      if (type === 'doc') return '📘';
+      if (type === 'image') return '🖼️';
+      if (type === 'link') return '🔗';
+      return '📄';
+    }
+
+    function renderPathBar() {
+      const parts = currentPath.split('/').filter(p => p);
+      let html = '<span onclick="navigate(\'/\')">根目录</span>';
+      let path = '';
+      for (const part of parts) {
+        path += '/' + part;
+        html += ' <span class="separator">/</span> <span onclick="navigate(\'' + path + '/\')">' + part + '</span>';
+      }
+      document.getElementById('pathBar').innerHTML = html;
+    }
+
+    function renderFileList() {
+      const list = fileSystem[currentPath] || [];
+      const container = document.getElementById('fileList');
+      container.innerHTML = '';
+
+      list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `item ${item.type}`;
+        div.innerHTML = `
+          <div class="icon">${getIcon(item.type)}</div>
+          <div class="name">${item.name}</div>
+          ${item.size ? `<div class="size">${item.size}</div>` : ''}
+        `;
+        div.addEventListener('click', (event) => {
+          // 添加点击动画
+          div.style.transform = 'scale(0.95)';
+          div.style.transition = 'transform 0.1s ease';
+          
+          setTimeout(() => {
+            div.style.transform = '';
+            div.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+          }, 100);
+          
+          if (item.type === 'folder') {
+            setTimeout(() => navigate(currentPath + item.name + '/'), 150);
+          } else if (item.type === 'parent') {
+            setTimeout(() => {
+              const parent = currentPath.split('/').slice(0, -2).join('/') + '/';
+              navigate(parent || '/');
+            }, 150);
+          } else if (item.url) {
+            setTimeout(() => {
+              alert('正在跳转至：' + item.name);
+              window.open(item.url, '_blank');
+            }, 150);
+          }
+        });
+        container.appendChild(div);
+      });
+    }
+
+    function navigate(path) {
+      currentPath = path;
+      renderPathBar();
+      renderFileList();
+    }
+
+    // 初始化
+    window.onload = function() {
+      // 启动自动主题切换
+      startAutoThemeSwitch();
+      
+      // 初始化音乐播放
+      initMusic();
+      
+      renderPathBar();
+      renderFileList();
+      
+      // 显示音乐播放提示
+      setTimeout(showMusicPrompt, 1000);
+    };
+  </script>
+</body>
+</html>
